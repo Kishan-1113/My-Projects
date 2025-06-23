@@ -3,6 +3,7 @@
 
 import random
 
+
 players = int(input("Number of players : "))
 while (players < 2):
     print("Atleast 2 players needed !!")
