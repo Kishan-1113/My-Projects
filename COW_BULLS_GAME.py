@@ -1,27 +1,61 @@
 import random
 
-# ------ DECLARATION --------
-# A cow means that the digit is correct but is at the wrong position
-# A bulls means that the digit is correct and also at the correct position 
-
 
 # Validating the difficulty input from user
-difficulty = input("Enter difficulty level (0-6): ")
-while (len(difficulty) != 1 or not difficulty.isdigit()):
-    difficulty = input("Difficulty level 0 to 6 only : ")
+
+# First layer of difficulty
+difficulty1 = input("Enter difficulty level (0-6): ")
+while (len(difficulty1) != 1 or not difficulty1.isdigit()):
+    difficulty1 = input("Difficulty level 0 to 6 only : ")
     
-difficulty = int(difficulty)
+
+# -------  Second layer of difficluty (START) ---------
+difficulty2 = input("Wanna add an extra layer of difficluty (y/n): ")
+while (difficulty2 not in ['y','n']):
+    difficulty2 = input('"y" for yes and "n" for no : ')
+
+available_moves = 0
+if (difficulty2 == "y"):
+    print("""
+          ** As an extra layer of difficulty, 
+    You have a total of "10" moves to reach the real number ** 
+""")
+    difficulty2 = True
+    available_moves = 10
+    
+elif (difficulty2 == "n"):
+    print("You have unlimited moves to reach !")
+    difficulty2 = False 
+
+# ------  Second layer of difficulty (ENDS)  ----------
+    
+
+difficulty1 = int(difficulty1)
 
 # Random number selected by the computer in the range
-com_guess = random.randint((10**(difficulty-1)) , (10**(difficulty) - 1))
+com_guess = random.randint((10**(difficulty1-1)) , (10**(difficulty1) - 1))
 
 
 # Validating user input
 g = 0
 while True:
+    
+    if (g < available_moves):
+        if (difficulty2):
+            if ((available_moves - g) <= 3) and (g+1 != available_moves):
+                print(f" ---  Careful, only {available_moves-g} moves left! --- ")
+            
+            if (g+1 == available_moves):
+                print("---- You Lose ----")
+                print("     OUT OF MOVES    !")
+                break
+    
+        pass
+    
+    
     user_guess = input(f"Guess {g+1} : ")
-    while ((len(user_guess) != difficulty) or not user_guess.isdigit()):
-        user_guess = input(f"Enter exactly {difficulty} digits : ")
+    while ((len(user_guess) != difficulty1) or not user_guess.isdigit()):
+        user_guess = input(f"Enter exactly {difficulty1} digits : ")
     g +=1
     
     # Create a list of all 
@@ -34,33 +68,30 @@ while True:
     comp_num = list(str(com_guess))
     user_num = list(user_guess)
 
-    comp_used = [False] * difficulty
-    user_used = [False] * difficulty
+    comp_used = [False] * difficulty1
+    user_used = [False] * difficulty1
 
     bulls = 0
     cows = 0
-    
     # First pass: check for bulls
-    for i in range(difficulty):
+    for i in range(difficulty1):
         if user_num[i] == comp_num[i]:
             bulls += 1
             comp_used[i] = True
             user_used[i] = True
 
     # Second pass: check for cows
-    for i in range(difficulty):
+    for i in range(difficulty1):
         if not user_used[i]:
-            for j in range(difficulty):
+            for j in range(difficulty1):
                 if not comp_used[j] and user_num[i] == comp_num[j]:
                     cows += 1
                     comp_used[j] = True
                     break
-                
     print("cows : ", cows)
     print("Bulls : " , bulls)
     
-    # Winning condition
-    if (bulls == difficulty):
+    if (bulls == difficulty1):
         print("---- You Won ----")
         real = ""
         for i in user_guess:
