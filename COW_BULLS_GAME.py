@@ -40,18 +40,13 @@ com_guess = random.randint((10**(difficulty1-1)) , (10**(difficulty1) - 1))
 g = 0
 while True:
     
-    if (g < available_moves):
-        if (difficulty2):
-            if ((available_moves - g) <= 3) and (g+1 != available_moves):
-                print(f" ---  Careful, only {available_moves-g} moves left! --- ")
-            
-            if (g+1 == available_moves):
-                print("---- You Lose ----")
-                print("     OUT OF MOVES    !")
-                break
-    
-        pass
-    
+    if (difficulty2):
+        if ((available_moves - g) == 3):
+            print("Careful! You have 3 moves left !!")
+        if (g+1 > available_moves):
+            print(" ---   You Lose   --- ")
+            print("You ran out of moves !")
+            break
     
     user_guess = input(f"Guess {g+1} : ")
     while ((len(user_guess) != difficulty1) or not user_guess.isdigit()):
@@ -88,6 +83,7 @@ while True:
                     cows += 1
                     comp_used[j] = True
                     break
+                
     print("cows : ", cows)
     print("Bulls : " , bulls)
     
