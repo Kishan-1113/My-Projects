@@ -4,6 +4,7 @@ import random
 
 
 text_1 = "Hello agent that can make videos photos also music help find new voices veo name home"
+
 text_2 = "cameraman working agriculture farming background rootcauses grandmother grandfather grand-daughter childhood motherland"
 
 level = input("Level (1-3) : ")
