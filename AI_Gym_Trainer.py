@@ -1,6 +1,6 @@
 import numpy as np
 import time 
-import Pose_Estimation_Module as pm
+import Pose_Finding_Module as pm
 import cv2 as cv
 
 cap = cv.VideoCapture(r"C:\Users\kally\OneDrive\Desktop\kishan python\Advanced OpenCV\gym video.mp4")
