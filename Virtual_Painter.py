@@ -21,8 +21,8 @@ header = overlaylist[0]
 
 ###############################
 brushThickness = 15
-eraserThickness = 50
-xp, yp = 0,0
+eraserThickness = 100
+xp, yp = 0, 0
 drawColor = (255,0,255)
 ###########################
 
@@ -65,7 +65,7 @@ while True:
 
         # Selection mode
         if (fingers[1] and fingers[2]):
-            
+            xp, yp = 0, 0
             print("Selection mode")
             
             if (y1 < 125):      # => Means we are in the clicking zone
@@ -118,13 +118,28 @@ while True:
         
     # 5. Drawing mode - Only index finger is up
     
+    # Another method to achieve drawing on the same image
+    imgGray = cv.cvtColor(imgCanvas, cv.COLOR_BGR2GRAY)
+    _, imgInv = cv.threshold(imgGray, 50, 250, cv.THRESH_BINARY_INV)
+    imgInv = cv.cvtColor(imgInv, cv.COLOR_GRAY2BGR)
+    
+    img = cv.bitwise_and(img,imgInv)
+    img = cv.bitwise_or(img, imgCanvas)
+    
     
     ctime = time.time()
     fps = 1 / (ctime - ptime) if ptime else 0
     ptime = ctime
     cv.putText(img, f'fps: {int(fps)}', (10, 700), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     
-    img[0:125, 0:1280] = header 
+    img[0:125, 0:1280] = header
+    
+    # # ___________ This is method 1  ______________
+    
+    # # This method blends the two images together and tries to merge them into 
+    # # a single image, but it has transparency and blended effects
+    # img = cv.addWeighted(img, 0.5, imgCanvas, 0.5,0)
+    
     cv.imshow("Webcam", img)
     cv.imshow("ImageCanvas", imgCanvas)
     cv.waitKey(1)
