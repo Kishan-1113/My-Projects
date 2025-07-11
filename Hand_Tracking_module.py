@@ -91,7 +91,12 @@ class HandDetector():
         return fingerId
     
     
-    def findDistance(self, p1, p2, img, draw=True,r=15, thickness=3):
+    def findDistance(self, img, p1, p2, draw=True, r=15, thickness=3):
+        
+        # Safety check, when there is no hands
+        if len(self.lmlist) <= max(p1, p2):
+            return img, 0, []
+        
         x1, y1 = self.lmlist[p1][1:]
         x2, y2 = self.lmlist[p2][1:]
         
@@ -105,7 +110,7 @@ class HandDetector():
             
         length = math.hypot(x2-x1, y2-y1)
         
-        return length, img, [x1, y1, x2, y2, cx, cy]
+        return img, length, [x1, y1, x2, y2, cx, cy]
             
 
 def main():
@@ -118,6 +123,9 @@ def main():
         img = cv.flip(img,1)
         img = detector.findHands(img)
         lmlist, bbox = detector.findposition(img,draw=True)
+        
+        img, lnt, lst = detector.findDistance(img, 8, 12)
+
         if (len(lmlist) != 0):
             print(lmlist)
 
