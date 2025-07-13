@@ -1,5 +1,5 @@
 import cv2 as cv
-import Face_detection_module as fdm
+import Face_Detection_Module as fdm
 import time
 import pyautogui as pg
 
@@ -23,12 +23,11 @@ while True:
         while True:
             pg.scroll(100)
             
-    if (length2 > length1):     # User watching downwards 
+    if (length2+10 > length1):     # User watching downwards 
         # Scroll down
         time.sleep(2)
         while True:
             pg.scroll(-100)
-            
     current_time = time.time()
     fps = 1 / (current_time - previous_time)
     previous_time = current_time

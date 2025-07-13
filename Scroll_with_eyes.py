@@ -1,5 +1,5 @@
 import cv2 as cv
-import Face_detection_module as fdm
+import Face_Detection_Module as fdm
 import time
 import pyautogui as pg
 
